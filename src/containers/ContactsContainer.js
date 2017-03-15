@@ -10,7 +10,10 @@ import Counter from '../components/Counter.js'
 import ContactList from '../components/ContactList/ContactList.component'
 import ContactForm from '../components/ContactForm/ContactForm.component'
 
+import * as contactActions from '../actions/contacts'
+
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 class ContactsContainer extends Component {
 
@@ -24,6 +27,9 @@ class ContactsContainer extends Component {
 
     onContactAdded = (newContact) => {
         // this.setState({contacts: [...this.state.contacts, newContact]});
+        //store.dispatch(contactActions.newContactSuccess(newContact));
+        const { newContactSuccess } = this.props.actions
+        newContactSuccess(newContact);
     }
 
     onButtonClick = () => {
@@ -67,4 +73,8 @@ const mapStateToProps = (store) => {
     }
 };
 
-export default connect(mapStateToProps)(ContactsContainer);
+const mapDispatchToProps = (dispatch) => {
+    return { actions: bindActionCreators(contactActions, dispatch) }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);

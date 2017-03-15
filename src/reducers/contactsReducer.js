@@ -6,22 +6,6 @@ import * as constants from '../actions/constants'
 
 const initialState = {
     data : []
-    // data: [{
-    //     id: 1,
-    //     firstname: 'John',
-    //     lastname: 'Doe',
-    //     age: 30
-    // }, {
-    //     id: 2,
-    //     firstname: 'Hien',
-    //     lastname: 'Phan',
-    //     age: 32
-    // }, {
-    //     id: 3,
-    //     firstname: 'Xuan',
-    //     lastname: 'Vinh',
-    //     age: 28
-    // }]
 };
 
 const contactsReducer = (state = initialState, action) => {
@@ -30,6 +14,11 @@ const contactsReducer = (state = initialState, action) => {
         case constants.CONTACT_LOAD_SUCCEEDED: return {
             ...state,
             data: action.payload || []
+        };
+
+        case constants.CONTACT_ADDED_SUCCEEDED: return {
+            ...state,
+            data: [...state.data, action.payload]
         };
 
         default:

@@ -7,12 +7,12 @@ import { createStore } from 'redux'
 import { Provider} from 'react-redux'
 
 import rootReducer  from './reducers'
-import loadContacts  from './actions/contacts'
+import * as contacts from './actions/contacts'
 
 const initialState = {};
 
 const store = createStore(rootReducer, initialState);
-store.dispatch(loadContacts());
+store.dispatch(contacts.loadContacts());
 
 ReactDOM.render(
     <Provider store={store}>
