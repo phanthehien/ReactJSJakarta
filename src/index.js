@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider} from 'react-redux'
 
 import rootReducer  from './reducers'
 import * as contacts from './actions/contacts'
+import devToolsEnhancer from 'remote-redux-devtools';
+
+import thunk from 'redux-thunk'
 
 const initialState = {};
 
-const store = createStore(rootReducer, initialState);
+const store = createStore(rootReducer, initialState, applyMiddleware(thunk), devToolsEnhancer());
 store.dispatch(contacts.loadContacts());
 
 ReactDOM.render(

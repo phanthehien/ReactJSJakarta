@@ -1,9 +1,8 @@
 /**
  * Created by hien.phanthe on 3/15/17.
  */
-
-
 import * as constants from './constants'
+import axios from 'axios'
 
 const defaultContacts = [{
     id: 1,
@@ -23,15 +22,50 @@ const defaultContacts = [{
 }];
 
 export const loadContacts = (contacts = defaultContacts ) => {
-    return {
-        type: constants.CONTACT_LOAD_SUCCEEDED,
-        payload: defaultContacts
-    }
+
+    return (dispatch) => {
+        fetch('http://localhost:3001/contacts')
+            .then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: constants.CONTACT_LOAD_SUCCEEDED,
+                    payload: json
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: constants.CONTACT_LOAD_FAILED,
+                    payload: err
+                })
+            })
+
+    };
+    // return {
+    //     type: constants.CONTACT_LOAD_SUCCEEDED,
+    //     payload: defaultContacts
+    // }
 };
 
-export const newContactSuccess = (newContact) => {
-    return {
-        type: constants.CONTACT_ADDED_SUCCEEDED,
-        payload:newContact
-    }
+export const saveNewContact = (newContact) => {
+    return (dispatch) => {
+
+        axios.post('http://localhost:3001/contacts', newContact)
+            .then(response => {
+                dispatch({
+                    type: constants.CONTACT_ADDED_SUCCEEDED,
+                    payload: response.data
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: constants.CONTACT_ADDED_FAILED,
+                    payload: err.message
+                })
+            });
+    };
+
+    // return {
+    //     type: constants.CONTACT_ADDED_SUCCEEDED,
+    //     payload:newContact
+    // }
 };

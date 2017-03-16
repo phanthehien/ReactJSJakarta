@@ -27,9 +27,9 @@ class ContactsContainer extends Component {
 
     onContactAdded = (newContact) => {
         // this.setState({contacts: [...this.state.contacts, newContact]});
-        //store.dispatch(contactActions.newContactSuccess(newContact));
-        const { newContactSuccess } = this.props.actions
-        newContactSuccess(newContact);
+        //store.dispatch(contactActions.saveNewContact(newContact));
+        const { saveNewContact } = this.props.actions
+        saveNewContact(newContact);
     }
 
     onButtonClick = () => {
@@ -52,12 +52,14 @@ class ContactsContainer extends Component {
                 <p>
                     <Button onClick={this.onButtonClick} numberOfClick={counter}/>
                 </p>
-                <p>
-                    <ContactList contacts={contacts.data}/>
-                </p>
-                <p>
-                    <ContactForm onContactAdded={this.onContactAdded}/>
-                </p>
+
+
+                <ContactForm onContactAdded={this.onContactAdded}/>
+                <div>
+                    {
+                        contacts.error ? <div>{contacts.error.toString()}</div> : <ContactList contacts={contacts.data}/>
+                    }
+                </div>
             </div>
         );
     }
@@ -75,6 +77,6 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return { actions: bindActionCreators(contactActions, dispatch) }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);

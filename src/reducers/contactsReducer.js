@@ -16,6 +16,11 @@ const contactsReducer = (state = initialState, action) => {
             data: action.payload || []
         };
 
+        case constants.CONTACT_LOAD_FAILED: return {
+            ...state,
+            error: action.payload
+        };
+
         case constants.CONTACT_ADDED_SUCCEEDED: return {
             ...state,
             data: [...state.data, action.payload]
